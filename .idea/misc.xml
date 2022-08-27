@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.17552083333333332" />
+        <entry key="../../Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/drawable-v24/ic_baseline_arrow_back_ios_24.xml" value="0.2225" />
+        <entry key="app/src/main/res/drawable/background_cell.xml" value="0.2225" />
+        <entry key="app/src/main/res/drawable/backgroung_line.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/circle_status_color.xml" value="0.2225" />
+        <entry key="app/src/main/res/drawable/ic_baseline_accessible_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_attach_money_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_boy_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_content_paste_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_format_list_numbered_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_front_hand_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_girl_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_grade_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_group_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_groups_24.xml" value="0.273" />
+        <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.2685" />
+        <entry key="app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.2685" />
+        <entry key="app/src/main/res/drawable/ic_baseline_menu_book_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_other_houses_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2225" />
+        <entry key="app/src/main/res/drawable/ic_tsc2.xml" value="0.2225" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/attendance_fragment.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/dialog_logut.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/dialog_wait.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.17447916666666666" />
+        <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/group_fragment.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/header_layout.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/item_group.xml" value="0.6401028277634961" />
+        <entry key="app/src/main/res/layout/item_location_history.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/item_spinner.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/item_spinner_login.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/item_student.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/location_history_fragment.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/login_fragment.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/performance_fragment.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/semester_fragment.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/student_fragment.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/student_main_fragment.xml" value="0.1151685393258427" />
+        <entry key="app/src/main/res/layout/subject_fragment.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/tutors_main_page.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/menu_edit_imag.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/menu/menu_main.xml" value="0.353125" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
