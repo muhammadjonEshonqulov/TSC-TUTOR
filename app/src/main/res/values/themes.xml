@@ -18,4 +18,7 @@
         <item name="boxStrokeColor">@color/cl_color_primary</item>
         <item name="android:textColorHint">@color/default_text_color</item>
     </style>
+
+
+
 </resources>

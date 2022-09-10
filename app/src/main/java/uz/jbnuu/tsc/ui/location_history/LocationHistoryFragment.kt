@@ -52,7 +52,10 @@ class LocationHistoryFragment : BaseFragment<LocationHistoryFragmentBinding>(Loc
         val bundle = bundleOf()
         val intent = Intent(requireActivity(), MapsActivity::class.java)
         if (data.lat != null && data.long != null) {
-            bundle.putString("last_location", Gson().toJson(SendLocationBody(data.lat, data.long, data.data_time)))
+            data.data_time?.let {
+                bundle.putString("last_location", Gson().toJson(SendLocationBody(it, data.lat, data.long)))
+            }
+
             intent.putExtras(bundle)
             startActivity(intent)
         } else {

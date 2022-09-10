@@ -1,83 +1,170 @@
 package uz.jbnuu.tsc.ui
 
-import android.content.IntentSender
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import android.content.IntentSender.SendIntentException
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
+import android.os.CountDownTimer
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.common.api.PendingResult
-import com.google.android.gms.common.api.Status
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
 import uz.jbnuu.tsc.databinding.ActivityMainBinding
+import uz.jbnuu.tsc.model.login.student.LoginStudentBody
+import uz.jbnuu.tsc.model.send_location.SendLocationArrayBody
 import uz.jbnuu.tsc.model.send_location.SendLocationBody
-import uz.jbnuu.tsc.ui.login.LoginFragment
 import uz.jbnuu.tsc.ui.student_main.StudentMainViewModel
-import uz.jbnuu.tsc.utils.NetworkResult
-import uz.jbnuu.tsc.utils.collectLA
-import uz.jbnuu.tsc.utils.lg
-import uz.jbnuu.tsc.utils.snackBar
+import uz.jbnuu.tsc.utils.*
+import java.text.SimpleDateFormat
+import java.util.*
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SendDataToActivity {
 
     private val vm: StudentMainViewModel by viewModels()
     private val timeTest = (6 * 1000).toLong()
+    private var timer: CountDownTimer? = null
+
+    @Inject
+    lateinit var prefs: Prefs
 
     val REQUEST_LOCATION = 199
-    private var googleApiClient: GoogleApiClient? = null
+
     lateinit var binding: ActivityMainBinding
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    private val REQUEST_CHECK_SETTINGS = 0x1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        MobileAds.initialize(this) {
+//
+//        }
+
+//        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+
     }
 
-    private fun enableLoc() {
-        if (googleApiClient == null) {
-            googleApiClient = GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(object : GoogleApiClient.ConnectionCallbacks {
-                    override fun onConnected(bundle: Bundle?) {}
-                    override fun onConnectionSuspended(i: Int) {
-                        googleApiClient?.connect()
-                    }
-                })
-                .addOnConnectionFailedListener { connectionResult ->
-                    Log.d(
-                        "Location error",
-                        "Location error " + connectionResult.errorCode
-                    )
-                }.build()
-            googleApiClient?.connect()
-            val locationRequest: LocationRequest = LocationRequest.create()
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-            locationRequest.setInterval(30 * 1000)
-            locationRequest.setFastestInterval(5 * 1000)
-            val builder = LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest)
-            builder.setAlwaysShow(true)
-            val result: PendingResult<LocationSettingsResult> =
-                LocationServices.SettingsApi.checkLocationSettings(
-                    googleApiClient!!,
-                    builder.build()
-                )
-            result.setResultCallback { result ->
-                val status: Status = result.status
-                when (status.statusCode) {
-                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
-                        // Show the dialog by calling startResolutionForResult(),
-                        // and check the result in onActivityResult().
-                        status.startResolutionForResult(this, REQUEST_LOCATION)
+    companion object {
+        private const val LOCATION_REQUEST_CODE = 1
+    }
 
-                        //                                finish();
-                    } catch (e: IntentSender.SendIntentException) {
-                        // Ignore the error.
-                    }
+
+    private fun checkPermission(): Boolean {
+        return if (ActivityCompat.checkSelfPermission(this@MainActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST_CODE)
+            false
+        } else {
+            true
+        }
+    }
+
+    //    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_CHECK_SETTINGS -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    timer?.cancel()
+                    timer?.start()
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    snackBar(binding, "Ilovadan foydalanish uchun joylashuvingizni yoqishingizni so'raymiz.")
+                    turnOnLocation()
+                }
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        when (prefs.get(prefs.role, 0)) {
+            2 -> {
+                if (prefs.get(prefs.token, "") != "") {
+                    send("Stop")
+                }
+            }
+            4 -> {
+                if (prefs.get(prefs.token, "") != "" && prefs.get(prefs.token, "") != "") {
+                    send("Stop")
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        when (prefs.get(prefs.role, 0)) {
+            2 -> {
+                if (prefs.get(prefs.token, "") != "") {
+                    send("Start")
+                }
+            }
+            4 -> {
+                if (prefs.get(prefs.token, "") != "" && prefs.get(prefs.token, "") != "") {
+                    send("Start")
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            LOCATION_REQUEST_CODE -> {
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    turnOnLocation()
+                } else {
+                    Toast.makeText(this@MainActivity, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+                return
+            }
+        }
+    }
+
+    private fun turnOnLocation() {
+        val locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 10000
+        locationRequest.fastestInterval = 5000
+
+        val locationSettingsRequestBuilder = LocationSettingsRequest.Builder()
+        locationSettingsRequestBuilder.addLocationRequest(locationRequest)
+        locationSettingsRequestBuilder.setAlwaysShow(true)
+
+        val settingsClient = LocationServices.getSettingsClient(this)
+        val task = settingsClient.checkLocationSettings(locationSettingsRequestBuilder.build()) as Task<LocationSettingsResponse>
+
+        task.addOnSuccessListener {
+            timer?.cancel()
+            timer?.start()
+        }
+        task.addOnFailureListener {
+            timer?.cancel()
+            if (it is ResolvableApiException) {
+                try {
+                    val resolvableApiException = it
+                    resolvableApiException.startResolutionForResult(this@MainActivity, REQUEST_CHECK_SETTINGS)
+                } catch (sendIntentException: SendIntentException) {
+                    sendIntentException.printStackTrace()
                 }
             }
         }
@@ -90,7 +177,115 @@ class MainActivity : AppCompatActivity() {
             when (it) {
                 is NetworkResult.Success -> {
                     it.data?.status?.let {
-                        snackBar(binding, "Status -> $it")
+//                        snackBar(binding, "Status -> $it")
+                    }
+                }
+                is NetworkResult.Error -> {
+                    if (it.code == 401) {
+                        login(sendLocationBody)
+                    }
+                }
+                is NetworkResult.Loading -> {
+
+                }
+            }
+        }
+    }
+
+    private fun sendLocationArray(sendLocationArrayBody: SendLocationArrayBody) {
+        vm.sendLocationArray(sendLocationArrayBody)
+        vm.sendLocationArrayResponse.collectLA(lifecycleScope) {
+            when (it) {
+                is NetworkResult.Success -> {
+                    it.data?.status?.let {
+                        vm.clearSendLocationBodyData()
+//                        snackBar(binding, "Status -> $it")
+                    }
+                }
+                is NetworkResult.Error -> {
+                    if (it.code == 401) {
+                        login(sendLocationArrayBody = sendLocationArrayBody)
+                    }
+                }
+                is NetworkResult.Loading -> {
+
+                }
+            }
+        }
+    }
+
+    private fun sendLocationArray1(sendLocationArrayBody: SendLocationArrayBody) {
+        vm.sendLocationArray1(sendLocationArrayBody)
+        vm.sendLocationArray1Response.collectLA(lifecycleScope) {
+            when (it) {
+                is NetworkResult.Success -> {
+                    it.data?.status?.let {
+                        vm.clearSendLocationBodyData()
+//                        snackBar(binding, "Status -> $it")
+                    }
+                }
+                is NetworkResult.Error -> {
+                    if (it.code == 401) {
+                        login(sendLocationArrayBody = sendLocationArrayBody)
+                    }
+                }
+                is NetworkResult.Loading -> {
+
+                }
+            }
+        }
+    }
+
+    private fun sendLocation1(sendLocationBody: SendLocationBody) {
+        vm.sendLocation1(sendLocationBody)
+        vm.sendLocation1Response.collectLA(lifecycleScope) {
+            when (it) {
+                is NetworkResult.Success -> {
+                    it.data?.status?.let {
+//                        snackBar(binding, "Status -> $it")
+                    }
+                }
+                is NetworkResult.Error -> {
+                    if (it.code == 401) {
+                        login(sendLocationBody)
+                    }
+                }
+                is NetworkResult.Loading -> {
+
+                }
+            }
+        }
+    }
+
+    private fun login(sendLocationBody: SendLocationBody? = null, sendLocationArrayBody: SendLocationArrayBody? = null) {
+        prefs.save(prefs.loginStop, 1)
+        vm.loginStudent(LoginStudentBody(prefs.get(prefs.login, ""), prefs.get(prefs.password, ""), prefs.get(prefs.token, "")))
+        vm.loginResponse.collectLA(lifecycleScope) {
+            when (it) {
+                is NetworkResult.Success -> {
+                    it.data?.token?.let {
+                        prefs.save(prefs.loginStop, 0)
+                        prefs.save(prefs.token, it)
+
+                        timer?.start()
+
+//                        if (prefs.get(prefs.role, 0) == 4) {
+//                            sendLocationBody?.let {
+//                                sendLocation(it)
+//                            }
+//                            sendLocationArrayBody?.let {
+//                                sendLocationArray(sendLocationArrayBody)
+//                            }
+//                        } else if (prefs.get(prefs.role, 0) == 2) {
+//                            sendLocationBody?.let {
+//                                sendLocation1(it)
+//                            }
+//                            sendLocationArrayBody?.let {
+//                                sendLocationArray1(sendLocationArrayBody)
+//                            }
+//                        } else {
+//
+//                        }
                     }
                 }
                 is NetworkResult.Error -> {
@@ -100,6 +295,84 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
+        }
+    }
+
+    override fun send(value: String) {
+        lg("value-> " + value)
+        if (value == "Start") {
+            if (timer == null) {
+                timer = object : CountDownTimer(timeTest, 1000) {
+                    var time = 0
+
+                    @SuppressLint("SetTextI18n", "VisibleForTests", "SimpleDateFormat")
+                    override fun onTick(millisUntilFinished: Long) {
+                        if (prefs.get(prefs.loginStop, 0) == 1) {
+                            cancel()
+                        } else {
+                            time = (timeTest - millisUntilFinished).toInt() / 1000
+                            if (time == 2) {
+                                if (checkPermission()) {
+//                    if (checkTurnOnOrOffLocation()){
+                                    fusedLocationProviderClient = FusedLocationProviderClient(this@MainActivity)
+                                    fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+                                        val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+                                        val currentDate = sdf.format(Date())
+                                        try {
+                                            application?.let { appl ->
+                                                if (hasInternetConnection(appl)) {
+                                                    lg("Connect")
+                                                    vm.getSendLocationBodyData()
+                                                    vm.getSendLocationsResponse.collectLA(lifecycleScope) { sendLocations ->
+                                                        lg("sendLocations size -> " + sendLocations.size)
+                                                        if (sendLocations.isNotEmpty()) {
+                                                            if (prefs.get(prefs.role, 0) == 4) {
+                                                                sendLocationArray(SendLocationArrayBody(sendLocations))
+                                                            } else if (prefs.get(prefs.role, 0) == 2) {
+                                                                sendLocationArray1(SendLocationArrayBody(sendLocations))
+                                                            }
+                                                        }
+                                                    }
+                                                    if (prefs.get(prefs.role, 0) == 4) {
+                                                        sendLocation(SendLocationBody(currentDate, "" + it.latitude, "" + it.longitude))
+                                                    } else if (prefs.get(prefs.role, 0) == 2) {
+                                                        sendLocation1(SendLocationBody(currentDate, "" + it.latitude, "" + it.longitude))
+                                                    } else {
+
+                                                    }
+                                                } else {
+                                                    lg("No Connect")
+
+                                                    vm.insertCategoryData(SendLocationBody(currentDate, "" + it.latitude, "" + it.longitude))
+
+                                                    lg("Inserted -> lat -> " + it.latitude.toString() + " long ->" + it.longitude.toString())
+                                                }
+                                            }
+
+                                        } catch (e: NullPointerException) {
+                                            turnOnLocation()
+//                                        snackBar(binding, "location error -> " + e.message.toString())
+                                        }
+                                    }
+                                } else {
+                                    cancel()
+                                }
+                            }
+                        }
+                    }
+
+                    @SuppressLint("SimpleDateFormat")
+                    override fun onFinish() {
+                        cancel()
+                        start()
+                    }
+                }
+            }
+            if (checkPermission()) {
+                turnOnLocation()
+            }
+        } else if (value == "Stop") {
+            timer?.cancel()
         }
     }
 }

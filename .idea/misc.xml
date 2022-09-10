@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.16366906474820145" />
         <entry key="../../Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.17552083333333332" />
         <entry key="../../Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_arrow_back_ios_24.xml" value="0.2225" />
@@ -24,13 +25,16 @@
         <entry key="app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.2685" />
         <entry key="app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.2685" />
         <entry key="app/src/main/res/drawable/ic_baseline_menu_book_24.xml" value="0.302" />
+        <entry key="app/src/main/res/drawable/ic_baseline_notifications_active_24.xml" value="0.242" />
         <entry key="app/src/main/res/drawable/ic_baseline_other_houses_24.xml" value="0.302" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.302" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2225" />
         <entry key="app/src/main/res/drawable/ic_tsc2.xml" value="0.2225" />
+        <entry key="app/src/main/res/drawable/spinner_background.xml" value="0.242" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.3541666666666667" />
-        <entry key="app/src/main/res/layout/attendance_fragment.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/attendance_fragment.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/custom_spinner_item.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/dialog_logut.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/dialog_wait.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.3541666666666667" />
@@ -38,18 +42,25 @@
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/group_fragment.xml" value="0.353125" />
         <entry key="app/src/main/res/layout/header_layout.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/item_attendance.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_group.xml" value="0.6401028277634961" />
+        <entry key="app/src/main/res/layout/item_lesson.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_location_history.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/item_performance.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/item_semester.xml" value="0.75" />
         <entry key="app/src/main/res/layout/item_spinner.xml" value="0.353125" />
         <entry key="app/src/main/res/layout/item_spinner_login.xml" value="0.353125" />
         <entry key="app/src/main/res/layout/item_student.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/item_time_table.xml" value="0.353125" />
         <entry key="app/src/main/res/layout/location_history_fragment.xml" value="0.353125" />
         <entry key="app/src/main/res/layout/login_fragment.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/performance_fragment.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/performance_fragment.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/schedule_fragment.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/semester_fragment.xml" value="0.353125" />
-        <entry key="app/src/main/res/layout/student_fragment.xml" value="0.353125" />
-        <entry key="app/src/main/res/layout/student_main_fragment.xml" value="0.1151685393258427" />
+        <entry key="app/src/main/res/layout/student_fragment.xml" value="0.30298818624044477" />
+        <entry key="app/src/main/res/layout/student_main_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/subject_fragment.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/time_table_fragment.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/tutors_main_page.xml" value="0.33" />
         <entry key="app/src/main/res/menu/menu_edit_imag.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.353125" />

@@ -14,5 +14,5 @@ data class AttendanceData(
     val employee: Employee?,
     val absent_on: Int?,
     val absent_off: Int?,
-    val lesson_date: Int?
+    val lesson_date: Long?
 )

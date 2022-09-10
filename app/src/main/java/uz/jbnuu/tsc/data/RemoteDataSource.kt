@@ -16,7 +16,9 @@ import uz.jbnuu.tsc.model.login.tyuter.LoginTyuterBody
 import uz.jbnuu.tsc.model.login.tyuter.LoginTyuterResponse
 import uz.jbnuu.tsc.model.me.MeResponse
 import uz.jbnuu.tsc.model.performance.PerformanceResponse
+import uz.jbnuu.tsc.model.schedule.ScheduleResponse
 import uz.jbnuu.tsc.model.semester.SemestersResponse
+import uz.jbnuu.tsc.model.send_location.SendLocationArrayBody
 import uz.jbnuu.tsc.model.send_location.SendLocationBody
 import uz.jbnuu.tsc.model.send_location.SendLocationResponse
 import uz.jbnuu.tsc.model.student.StudentBody
@@ -55,12 +57,16 @@ class RemoteDataSource @Inject constructor(@Named("provideApiService") val apiSe
         return apiServiceHemis.semesters()
     }
 
+    suspend fun schedule(week: Int): Response<ScheduleResponse> {
+        return apiServiceHemis.schedule(week)
+    }
+
     suspend fun performance(): Response<PerformanceResponse> {
         return apiServiceHemis.performance()
     }
 
-    suspend fun attendance(): Response<AttendanceResponse> {
-        return apiServiceHemis.attendance()
+    suspend fun attendance(subject: Int?, semester: Int?): Response<AttendanceResponse> {
+        return apiServiceHemis.attendance(subject, semester)
     }
 
     suspend fun logout(): Response<LogoutResponse> {
@@ -82,6 +88,18 @@ class RemoteDataSource @Inject constructor(@Named("provideApiService") val apiSe
 
     suspend fun sendLocation(sendLocationBody: SendLocationBody): Response<SendLocationResponse> {
         return apiService.sendLocation(sendLocationBody)
+    }
+
+    suspend fun sendLocation1(sendLocationBody: SendLocationBody): Response<SendLocationResponse> {
+        return apiService.sendLocation1(sendLocationBody)
+    }
+
+    suspend fun sendLocationArray(sendLocationArrayBody: SendLocationArrayBody): Response<LogoutResponse> {
+        return apiService.sendLocationArray(sendLocationArrayBody)
+    }
+
+    suspend fun sendLocationArray1(sendLocationArrayBody: SendLocationArrayBody): Response<LogoutResponse> {
+        return apiService.sendLocationArray1(sendLocationArrayBody)
     }
 
 }

@@ -11,6 +11,8 @@ import uz.jbnuu.tsc.R
 import uz.jbnuu.tsc.app.App
 import uz.jbnuu.tsc.data.Repository
 import uz.jbnuu.tsc.model.group.GroupResponse
+import uz.jbnuu.tsc.model.login.tyuter.LoginTyuterBody
+import uz.jbnuu.tsc.model.login.tyuter.LoginTyuterResponse
 import uz.jbnuu.tsc.utils.NetworkResult
 import uz.jbnuu.tsc.utils.handleResponse
 import uz.jbnuu.tsc.utils.hasInternetConnection
@@ -36,6 +38,23 @@ class GroupViewModel @Inject constructor(
             }
         } else {
             _getGroupsResponse.send(NetworkResult.Error(App.context.getString(R.string.connection_error)))
+        }
+    }
+
+    private val _loginTyuterResponse = Channel<NetworkResult<LoginTyuterResponse>>()
+    var loginTyuterResponse = _loginTyuterResponse.receiveAsFlow()
+
+    fun loginTyuter(loginTyuterBody: LoginTyuterBody) = viewModelScope.launch {
+        _loginTyuterResponse.send(NetworkResult.Loading())
+        if (hasInternetConnection(getApplication())) {
+            try {
+                val response = repository.remote.loginTyuter(loginTyuterBody)
+                _loginTyuterResponse.send(handleResponse(response))
+            } catch (e: Exception) {
+                _loginTyuterResponse.send(NetworkResult.Error("Xatolik : " + e.message))
+            }
+        } else {
+            _loginTyuterResponse.send(NetworkResult.Error(App.context.getString(R.string.connection_error)))
         }
     }
 }

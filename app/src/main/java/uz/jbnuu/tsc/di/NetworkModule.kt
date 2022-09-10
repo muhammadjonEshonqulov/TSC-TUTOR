@@ -33,16 +33,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideContext(@ApplicationContext context: Context) = context
-
-    @Singleton
-    @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor()
     }
 
     @Singleton
     @Provides
+    @Named("provideHttpClient")
     fun provideHttpClient(
         prefs: Prefs
     ): OkHttpClient {
@@ -64,8 +61,30 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    @Named("provideHttpClientHemis")
+    fun provideHttpClientHemis(
+        prefs: Prefs
+    ): OkHttpClient {
+        val builder = OkHttpClient().newBuilder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder().addHeader("Authorization", "Bearer " + prefs.get(prefs.hemisToken, "hemis")).build()
+                chain.proceed(request)
+            }
+            .connectTimeout(10000L, TimeUnit.MILLISECONDS)
+            .readTimeout(10000L, TimeUnit.MILLISECONDS)
+            .writeTimeout(10000L, TimeUnit.MILLISECONDS)
+
+        if (BuildConfig.isDebug) {
+            builder.addInterceptor(ChuckerInterceptor.Builder(App.context).collector(ChuckerCollector(App.context)).build())
+        }
+
+        return builder.build()
+    }
+
+    @Singleton
+    @Provides
     @Named("provideRetrofit")
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(@Named("provideHttpClient") okHttpClient: OkHttpClient): Retrofit {
 
         return Retrofit.Builder()
             .client(okHttpClient)
@@ -78,7 +97,7 @@ object NetworkModule {
     @Singleton
     @Provides
     @Named("provideRetrofitHemis")
-    fun provideRetrofitHemis(okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofitHemis(@Named("provideHttpClientHemis") okHttpClient: OkHttpClient): Retrofit {
 
         return Retrofit.Builder()
             .client(okHttpClient)

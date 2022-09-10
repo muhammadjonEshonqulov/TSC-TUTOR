@@ -1,7 +1,9 @@
 package uz.jbnuu.tsc.ui.tutor
 
+import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
@@ -14,7 +16,9 @@ import uz.jbnuu.tsc.R
 import uz.jbnuu.tsc.base.BaseFragment
 import uz.jbnuu.tsc.base.LogoutDialog
 import uz.jbnuu.tsc.base.ProgressDialog
+import uz.jbnuu.tsc.databinding.HeaderLayoutBinding
 import uz.jbnuu.tsc.databinding.TutorsMainPageBinding
+import uz.jbnuu.tsc.ui.SendDataToActivity
 import uz.jbnuu.tsc.utils.NetworkResult
 import uz.jbnuu.tsc.utils.Prefs
 import uz.jbnuu.tsc.utils.collectLA
@@ -26,6 +30,8 @@ class TutorMainFragment : BaseFragment<TutorsMainPageBinding>(TutorsMainPageBind
 
     private val vm: TyuterMainViewModel by viewModels()
     var progressDialog: ProgressDialog? = null
+    var sendDataToActivity: SendDataToActivity? = null
+    var bindNavHeader: HeaderLayoutBinding? = null
 
     @Inject
     lateinit var prefs: Prefs
@@ -33,6 +39,14 @@ class TutorMainFragment : BaseFragment<TutorsMainPageBinding>(TutorsMainPageBind
 
     override fun onViewCreatedd(view: View, savedInstanceState: Bundle?) {
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        bindNavHeader = HeaderLayoutBinding.bind(LayoutInflater.from(requireContext()).inflate(R.layout.header_layout, null, false))
+        bindNavHeader?.root?.let { binding.navView.addHeaderView(it) }
+
+        bindNavHeader?.userNameHeader?.text = prefs.get(prefs.fam, "") + " " + prefs.get(prefs.name, "")
+
+        sendDataToActivity?.send("Start")
+
 
         onClickListener(this)
 
@@ -151,6 +165,15 @@ class TutorMainFragment : BaseFragment<TutorsMainPageBinding>(TutorsMainPageBind
         return true
     }
 
+    override fun onAttach(activity: Activity) {
+        super.onAttach(activity)
+        try {
+            sendDataToActivity = activity as SendDataToActivity
+        } catch (e: ClassCastException) {
+            throw ClassCastException("$activity error")
+        }
+    }
+
     private fun logout() {
         vm.logout()
         vm.logoutResponse.collectLA(viewLifecycleOwner) {
@@ -163,6 +186,7 @@ class TutorMainFragment : BaseFragment<TutorsMainPageBinding>(TutorsMainPageBind
                     if (it.data?.status == 1) {
                         it.data.apply {
                             prefs.clear()
+                            sendDataToActivity?.send("Stop")
                             findNavController().navigateSafe(R.id.action_tutorMainFragment_to_loginFragment)
                         }
                     } else {
@@ -173,6 +197,7 @@ class TutorMainFragment : BaseFragment<TutorsMainPageBinding>(TutorsMainPageBind
                     closeLoader()
                     if (it.code == 401) {
                         prefs.clear()
+                        sendDataToActivity?.send("Stop")
                         findNavController().navigateSafe(R.id.action_tutorMainFragment_to_loginFragment)
                     } else {
                         snackBar(binding, it.message.toString())

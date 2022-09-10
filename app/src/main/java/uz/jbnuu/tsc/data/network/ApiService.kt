@@ -20,6 +20,7 @@ import uz.jbnuu.tsc.model.me.MeResponse
 import uz.jbnuu.tsc.model.performance.PerformanceResponse
 import uz.jbnuu.tsc.model.schedule.ScheduleResponse
 import uz.jbnuu.tsc.model.semester.SemestersResponse
+import uz.jbnuu.tsc.model.send_location.SendLocationArrayBody
 import uz.jbnuu.tsc.model.send_location.SendLocationBody
 import uz.jbnuu.tsc.model.send_location.SendLocationResponse
 import uz.jbnuu.tsc.model.student.StudentResponse
@@ -55,7 +56,7 @@ interface ApiService {
     suspend fun performance(): Response<PerformanceResponse>
 
     @GET("education/attendance")
-    suspend fun attendance(): Response<AttendanceResponse>
+    suspend fun attendance(@Query("subject") subject: Int?, @Query("semester") semester: Int?): Response<AttendanceResponse>
 
     @GET("logout")
     suspend fun logout(): Response<LogoutResponse>
@@ -72,6 +73,14 @@ interface ApiService {
     @POST("send_location")
     suspend fun sendLocation(@Body sendLocationBody: SendLocationBody): Response<SendLocationResponse>
 
+    @POST("send_location1")
+    suspend fun sendLocation1(@Body sendLocationBody: SendLocationBody): Response<SendLocationResponse>
+
+    @POST("send_location_array")
+    suspend fun sendLocationArray(@Body sendLocationArrayBody: SendLocationArrayBody): Response<LogoutResponse>
+
+    @POST("send_location_array1")
+    suspend fun sendLocationArray1(@Body sendLocationArrayBody: SendLocationArrayBody): Response<LogoutResponse>
 
 //    @POST("orders")
 //    suspend fun orders(@Query("table_id") table_id: Int, @Query("waiter_id") waiter_id: Int, @Query("lang") lang: Int, @Body orders: OrderBody): Response<OrderResponse>

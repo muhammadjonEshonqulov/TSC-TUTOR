@@ -54,11 +54,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         val last_location: String? = intent?.extras?.getString("last_location")
         last_location?.let {
             location = Gson().fromJson(last_location, SendLocationBody::class.java)
-
-            lg("Location : " + location)
-            lg("lat : " + location?.lat)
-            lg("long : " + location?.long)
-            lg("data_time : " + location?.data_time)
+            lg("last_location -> "+it)
+            lg("location -> "+location)
         }
 
 //        val location: LocationHistoryData = Gson().fromJson(last_location, LocationHistoryData::class.java)
@@ -149,7 +146,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 lastLocation = location
-                val _location = this.location?.lat?.toDouble()?.let { this.location?.long?.toDouble()?.let { it1 -> LatLng(it, it1) } }
+                val _location = this.location?.latitude?.toDouble()?.let { this.location?.longitude?.toDouble()?.let { it1 -> LatLng(it, it1) } }
                 _location?.let {
                     placeMarkerOnMap(_location)
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(_location, 18f))
@@ -163,8 +160,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         val marker = MarkerOptions().position(currentLatLang)
         if (location != null) {
             marker.title("${location?.data_time}.")
-            location?.lat?.let { lat ->
-                location?.long?.let { long ->
+            location?.latitude?.let { lat ->
+                location?.longitude?.let { long ->
                     lg("id -> " + mMap.addMarker(MarkerOptions().position(LatLng(lat.toDouble(), long.toDouble())))?.id)
                     lg("id -> " + mMap.addMarker(MarkerOptions().position(LatLng(lat.toDouble(), long.toDouble())))?.id)
                     lg("id -> " + mMap.addMarker(MarkerOptions().position(LatLng(lat.toDouble(), long.toDouble())))?.id)

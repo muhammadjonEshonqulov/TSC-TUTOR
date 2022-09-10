@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_back"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -33,7 +34,8 @@
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
-            android:text="401201100008" />
+            android:text="401201100008"
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <LinearLayout
@@ -49,7 +51,8 @@
             android:layout_height="25dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="Eshonqulov Muhammad" />
+            android:text="Eshonqulov Muhammad"
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,7 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:gravity="center"
-            android:text="AC2139061" />
+            android:text="AC2139061"
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <LinearLayout
@@ -79,7 +83,8 @@
             android:layout_height="25dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="Jizzax vil. Baxmal tun." />
+            android:text="Jizzax vil. Baxmal tun."
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,11 +97,12 @@
             android:id="@+id/last_location"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="@dimen/small_margin"
-            android:paddingEnd="@dimen/small_margin"
             android:background="?selectableItemBackground"
             android:gravity="center"
+            android:paddingStart="@dimen/small_margin"
+            android:paddingEnd="@dimen/small_margin"
             android:text="Show"
+            android:textColor="@color/black"
             app:drawableStartCompat="@drawable/ic_baseline_location_on_24" />
     </LinearLayout>
 
@@ -109,12 +115,13 @@
         <TextView
             android:id="@+id/history_locations"
             android:layout_width="match_parent"
-            android:paddingStart="@dimen/small_margin"
-            android:paddingEnd="@dimen/small_margin"
             android:layout_height="match_parent"
             android:background="?selectableItemBackground"
             android:gravity="center"
+            android:paddingStart="@dimen/small_margin"
+            android:paddingEnd="@dimen/small_margin"
             android:text="Show"
+            android:textColor="@color/black"
             app:drawableStartCompat="@drawable/ic_baseline_map_24" />
     </LinearLayout>
 
@@ -122,4 +129,4 @@
 </LinearLayout>
 
 
-<!--99 550 4151  Shuhrat aka-->
+    <!--99 550 4151  Shuhrat aka-->

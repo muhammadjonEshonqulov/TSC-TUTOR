@@ -6,6 +6,7 @@ data class SemestersData(
     val code: String?,
     val name: String?,
     val current: Boolean?,
+    var currentExtra: Boolean? = null,
     val education_year: EducationYear?,
     val weeks: List<WeekData>?
 )

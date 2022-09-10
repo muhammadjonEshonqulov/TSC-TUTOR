@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import uz.jbnuu.tsc.R
@@ -36,6 +37,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         val spinnerAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.array, R.layout.item_spinner_login)
         spinnerAdapter.setDropDownViewResource(R.layout.item_spinner_login)
         binding.spinner.adapter = spinnerAdapter
+
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 whichOne = p2
@@ -57,14 +59,14 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                 if (login.isNotEmpty() && password.isNotEmpty()) {
 //                    login(LoginBody(login, password))
                     when (whichOne) {
+//                        0 -> {
+//                            snackBar(binding, "Hozirda admin ro'li mavjud emas.")
+//                            // login(LoginBody(login, password))
+//                        }
                         0 -> {
-                            snackBar(binding, "Hozirda admin ro'li mavjud emas.")
-                            // login(LoginBody(login, password))
-                        }
-                        1 -> {
                             loginTyuter(LoginTyuterBody(login, password))
                         }
-                        2 -> {
+                        1 -> {
                             loginHemis(LoginHemisBody(login, password))
                         }
                     }
@@ -107,7 +109,6 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                     closeLoader()
                     snackBar(binding, it.message.toString())
                 }
-                else -> {}
             }
         }
     }
@@ -123,13 +124,17 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                     closeLoader()
                     if (it.data?.status == 1) {
                         it.data.apply {
+                            prefs.save(prefs.login, "${loginStudentBody.login}")
+                            prefs.save(prefs.password, "${loginStudentBody.password}")
                             token?.let {
                                 prefs.save(prefs.token, it)
                             }
                             hemins_token?.let {
                                 prefs.save(prefs.hemisToken, it)
                             }
-                            findNavController().navigateSafe(R.id.action_loginFragment_to_studentMainFragment)
+                            prefs.save(prefs.role, 4)
+                            meHemis()
+//                            findNavController().navigateSafe(R.id.action_loginFragment_to_studentMainFragment)
                         }
                     } else {
                         snackBar(binding, "status " + it.data?.status)
@@ -139,7 +144,44 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                     closeLoader()
                     snackBar(binding, it.message.toString())
                 }
-                else -> {}
+            }
+        }
+    }
+
+
+    private fun meHemis() {
+        vm.meHemis()
+        vm.meHemisResponse.collectLA(lifecycleScope) {
+            when (it) {
+                is NetworkResult.Loading -> {
+                    showLoader()
+                }
+                is NetworkResult.Success -> {
+                    closeLoader()
+                    if (it.data?.success == true) {
+                        it.data.data?.apply {
+                            first_name?.let {
+                                prefs.save(prefs.name, it)
+                            }
+                            second_name?.let {
+                                prefs.save(prefs.fam, it)
+                            }
+                            group?.name?.let {
+                                prefs.save(prefs.group, it)
+                            }
+                            image?.let {
+                                prefs.save(prefs.image, it)
+                            }
+                            findNavController().navigateSafe(R.id.action_loginFragment_to_studentMainFragment)
+                        }
+                    } else {
+                        snackBar(binding, "error " + it.data?.error)
+                    }
+                }
+                is NetworkResult.Error -> {
+                    closeLoader()
+                    snackBar(binding, it.message.toString())
+                }
             }
         }
     }
@@ -156,6 +198,8 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                     if (it.data?.status == 1) {
                         it.data.apply {
                             token?.let {
+                                prefs.save(prefs.tutorLogin, "${loginTyuterBody.login}")
+                                prefs.save(prefs.tutorPassword, "${loginTyuterBody.password}")
                                 prefs.save(prefs.token, it)
                             }
                             familya?.let {
@@ -181,7 +225,6 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                     closeLoader()
                     snackBar(binding, it.message.toString())
                 }
-                else -> {}
             }
         }
     }

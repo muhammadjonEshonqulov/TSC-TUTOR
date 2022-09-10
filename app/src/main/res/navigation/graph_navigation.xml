@@ -79,7 +79,6 @@
         android:label="StudentMainFragment"
         tools:layout="@layout/student_main_fragment">
 
-
         <action
             android:id="@+id/action_studentMainFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -90,6 +89,30 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/graph_nav"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_studentMainFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_studentMainFragment_to_performanceFragment"
+            app:destination="@id/performanceFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_studentMainFragment_to_attendanceFragment"
+            app:destination="@id/attendanceFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/locationHistoryFragment"
@@ -173,4 +196,19 @@
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="uz.jbnuu.tsc.ui.timetable.ScheduleFragment"
+        android:label="SchedukeFragment"
+        tools:layout="@layout/schedule_fragment" />
+    <fragment
+        android:id="@+id/attendanceFragment"
+        android:name="uz.jbnuu.tsc.ui.attendance.AttendanceFragment"
+        android:label="AttendanceFragment"
+        tools:layout="@layout/attendance_fragment" />
+    <fragment
+        android:id="@+id/performanceFragment"
+        android:name="uz.jbnuu.tsc.ui.performance.PerformanceFragment"
+        android:label="PerformanceFragment"
+        tools:layout="@layout/performance_fragment" />
 </navigation>

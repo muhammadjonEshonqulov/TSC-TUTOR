@@ -1,7 +1,13 @@
 package uz.jbnuu.tsc.model.send_location
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
+
+@Entity
 data class SendLocationBody(
-    val lat: String?,
-    val long: String?,
-    val data_time: String?,
+    @PrimaryKey
+    var data_time: String = "",
+    @SerializedName("lat") var latitude: String = "",
+    @SerializedName("long") var longitude: String = "",
 )

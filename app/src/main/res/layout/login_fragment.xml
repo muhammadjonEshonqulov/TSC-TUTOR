@@ -32,7 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/actionbar_size"
                 android:layout_marginTop="30dp"
-                android:background="@drawable/backgroung_line">
+                android:background="@drawable/backgroung_line"
+                android:paddingStart="@dimen/small_margin">
 
                 <Spinner
                     android:id="@+id/spinner"
@@ -115,10 +116,10 @@
                 <Button
                     android:id="@+id/login_btn"
                     android:layout_width="match_parent"
-                    android:foreground="?selectableItemBackground"
                     android:layout_height="wrap_content"
                     android:background="@color/cl_color_primary"
                     android:fontFamily="@font/montserrat_medium"
+                    android:foreground="?selectableItemBackground"
                     android:text="Kirish"
                     android:textColor="@color/white" />
             </androidx.cardview.widget.CardView>

@@ -1,8 +1,6 @@
 package uz.jbnuu.tsc.base
 
 import android.content.Context
-import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -16,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import uz.jbnuu.tsc.R
-import java.util.*
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
@@ -24,7 +21,6 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
     private var isUseBackPress = true
 //    lateinit var languageManager: LanguageManager
 //    lateinit var textSizes: TextSizes
-
 
 
     private var _binding: VB? = null
@@ -90,27 +86,37 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
     fun hideKeyBoard(view: EditText) {
 //        val view = activity?.currentFocus ?: View(activity)
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
-    fun snackBar(binding:ViewBinding,message: String) {
-        binding.root.let {
-            val snackbar = Snackbar.make(it, message, Snackbar.LENGTH_SHORT)
-            snackbar.show()
+
+    fun snackBar(binding: ViewBinding, message: String) {
+        try {
+            binding.root.let {
+                val snackbar = Snackbar.make(it, message, Snackbar.LENGTH_SHORT)
+                snackbar.show()
+            }
+        } catch (e: Exception) {
+
         }
     }
 
     fun snackBarAction(message: String) {
-        binding.root.let {
-            val snackbar = Snackbar.make(it, message, Snackbar.LENGTH_INDEFINITE)
-            snackbar.setAction(it.context.getString(R.string.close)) {
-                snackbar.dismiss()
+        try {
+            binding.root.let {
+                val snackbar = Snackbar.make(it, message, Snackbar.LENGTH_INDEFINITE)
+                snackbar.setAction(it.context.getString(R.string.close)) {
+                    snackbar.dismiss()
+                }
+                val textView: TextView = snackbar.view.findViewById(com.google.android.material.R.id.snackbar_text)
+                textView.maxLines = 6
+                snackbar.show()
             }
-            val textView : TextView = snackbar.view.findViewById(com.google.android.material.R.id.snackbar_text)
-            textView.maxLines = 6
-            snackbar.show()
+        } catch (e: Exception) {
+
         }
     }
 

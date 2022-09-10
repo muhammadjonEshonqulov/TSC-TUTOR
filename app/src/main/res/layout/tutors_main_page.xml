@@ -71,6 +71,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -108,6 +109,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -145,6 +147,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -162,13 +165,16 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
+                                android:alpha="0.6"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_attach_money_24" />
+                                android:src="@drawable/ic_baseline_attach_money_24"
+                                app:tint="#FFB2B2" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/small_margin"
+                                android:alpha="0.6"
                                 android:fontFamily="@font/montserrat_medium"
                                 android:gravity="center"
                                 android:padding="@dimen/small_margin"
@@ -189,6 +195,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -206,13 +213,16 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
+                                android:alpha="0.6"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_chat_24" />
+                                android:src="@drawable/ic_baseline_chat_24"
+                                app:tint="#FFB2B2" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/small_margin"
+                                android:alpha="0.6"
                                 android:fontFamily="@font/montserrat_medium"
                                 android:gravity="center"
                                 android:padding="@dimen/small_margin"
@@ -226,6 +236,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -263,6 +274,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -307,6 +319,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -344,6 +357,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -381,6 +395,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -425,6 +440,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -462,6 +478,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -501,6 +518,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -518,14 +536,16 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
+                                android:alpha="0.6"
                                 android:padding="@dimen/small_margin"
                                 android:src="@drawable/accomodation"
-                                app:tint="@color/cl_color_primary" />
+                                app:tint="#FFB2B2"/>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/small_margin"
+                                android:alpha="0.6"
                                 android:fontFamily="@font/montserrat_medium"
                                 android:gravity="center"
                                 android:padding="@dimen/small_margin"
@@ -547,6 +567,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -564,13 +585,16 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
+                                android:alpha="0.6"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_other_houses_24" />
+                                android:src="@drawable/ic_baseline_other_houses_24"
+                                app:tint="#FFB2B2" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/small_margin"
+                                android:alpha="0.6"
                                 android:fontFamily="@font/montserrat_medium"
                                 android:gravity="center"
                                 android:padding="@dimen/small_margin"
@@ -584,6 +608,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/small_margin"
                         app:cardElevation="@dimen/small_margin"
                         app:cardUseCompatPadding="true">
@@ -601,13 +626,16 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
+                                android:alpha="0.6"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_home_24" />
+                                android:src="@drawable/ic_baseline_home_24"
+                                app:tint="#FFB2B2" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/small_margin"
+                                android:alpha="0.6"
                                 android:fontFamily="@font/montserrat_medium"
                                 android:gravity="center"
                                 android:padding="@dimen/small_margin"
@@ -628,6 +656,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/header_layout"
+        android:background="@color/white"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
         app:menu="@menu/menu_main" />
 </androidx.drawerlayout.widget.DrawerLayout>

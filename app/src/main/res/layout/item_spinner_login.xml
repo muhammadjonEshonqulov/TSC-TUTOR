@@ -2,10 +2,12 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     style="?android:attr/spinnerItemStyle"
-    android:singleLine="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/left_right_margin_size"
+    android:background="@color/white"
     android:ellipsize="marquee"
     android:padding="@dimen/default_margin"
-    android:layout_marginStart="@dimen/left_right_margin_size"
-    android:textAlignment="inherit"/>
+    android:singleLine="true"
+    android:textAlignment="inherit"
+    android:textColor="@color/black" />

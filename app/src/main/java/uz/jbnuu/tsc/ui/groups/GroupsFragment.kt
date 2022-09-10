@@ -15,6 +15,7 @@ import uz.jbnuu.tsc.base.BaseFragment
 import uz.jbnuu.tsc.base.ProgressDialog
 import uz.jbnuu.tsc.databinding.GroupFragmentBinding
 import uz.jbnuu.tsc.model.group.GroupData
+import uz.jbnuu.tsc.model.login.tyuter.LoginTyuterBody
 import uz.jbnuu.tsc.utils.NetworkResult
 import uz.jbnuu.tsc.utils.Prefs
 import uz.jbnuu.tsc.utils.collectLA
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class GroupsFragment : BaseFragment<GroupFragmentBinding>(GroupFragmentBinding::inflate), View.OnClickListener, GroupAdapter.OnItemClickListener {
 
     private val vm: GroupViewModel by viewModels()
+
     @Inject
     lateinit var prefs: Prefs
     var progressDialog: ProgressDialog? = null
@@ -75,6 +77,39 @@ class GroupsFragment : BaseFragment<GroupFragmentBinding>(GroupFragmentBinding::
                         it.data.apply {
                             groups?.let {
                                 groupAdapter.setData(it)
+                            }
+                        }
+                    } else {
+                        snackBar(binding, "status " + it.data?.status)
+                    }
+                }
+                is NetworkResult.Error -> {
+                    closeLoader()
+                    if (it.code == 401) {
+                        loginTyuter()
+//                        prefs.clear()
+//                        findNavController().navigateSafe(R.id.action_groupsFragment_to_loginFragment)
+                    } else {
+                        snackBar(binding, it.message.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loginTyuter() {
+        vm.loginTyuter(LoginTyuterBody(prefs.get(prefs.tutorLogin, ""), prefs.get(prefs.tutorPassword, "")))
+        vm.loginTyuterResponse.collectLA(lifecycleScope) {
+            when (it) {
+                is NetworkResult.Loading -> {
+                    showLoader()
+                }
+                is NetworkResult.Success -> {
+                    if (it.data?.status == 1) {
+                        it.data.apply {
+                            token?.let {
+                                prefs.save(prefs.token, it)
+                                getGroups()
                             }
                         }
                     } else {

@@ -12,6 +12,7 @@ class ProgressDialog : AlertDialog {
     var binding:DialogWaitBinding
 
 
+
     constructor(context: Context, message: String) : super(context) {
         this.setCancelable(false)
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_wait, null, false)

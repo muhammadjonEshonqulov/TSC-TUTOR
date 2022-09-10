@@ -21,7 +21,7 @@
 <!--    <color name="teal_200">#FF03DAC5</color>-->
 <!--    <color name="teal_700">#FF018786</color>-->
     <color name="black">#FF000000</color>
-    <color name="new_tab_color">#9f3334</color>
+    <color name="new_tab_color">#DB8283</color>
     <color name="closed_tab_color">#878787</color>
     <color name="un_closed_tab_color">#3d3d3d</color>
     <color name="message_un_submit_color">#FFEB3B</color>
@@ -29,5 +29,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="red">#FF0000</color>
-    <color name="green">#00ff00</color>
+    <color name="green">#00A65A</color>
+    <color name="items_color_0">#F2F2F2</color>
+    <color name="items_color_1">#FFFFFF</color>
 </resources>

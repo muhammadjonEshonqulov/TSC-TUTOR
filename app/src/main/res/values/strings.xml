@@ -6,9 +6,9 @@
 
 
     <string-array name="array">
-        <item>Admin</item>
         <item>Tyutor</item>
         <item>Talaba</item>
+        <item>Admin</item>
     </string-array>
 
 </resources>

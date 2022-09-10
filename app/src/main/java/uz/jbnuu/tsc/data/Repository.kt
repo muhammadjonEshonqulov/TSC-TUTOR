@@ -3,9 +3,9 @@ package uz.jbnuu.tsc.data
 import javax.inject.Inject
 
 class Repository @Inject constructor(
-//    localDataSource: LocalDataSource,
+    localDataSource: LocalDataSource,
     remoteDataSource: RemoteDataSource,
 ) {
     val remote = remoteDataSource
-//    val local = localDataSource
+    val local = localDataSource
 }

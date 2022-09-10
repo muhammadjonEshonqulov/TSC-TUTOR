@@ -12,7 +12,6 @@ import uz.jbnuu.tsc.databinding.ItemStudentBinding
 import uz.jbnuu.tsc.model.history_location.LocationHistoryData
 import uz.jbnuu.tsc.model.student.StudentData
 import uz.jbnuu.tsc.utils.MyDiffUtil
-import uz.jbnuu.tsc.utils.lg
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,8 +45,14 @@ class StudentAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<S
 
     inner class MyViewHolder(private val binding: ItemStudentBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SetTextI18n")
+
+        @SuppressLint("SetTextI18n", "SimpleDateFormat")
         fun bind(data: StudentData) {
+            if (bindingAdapterPosition % 2 == 1) {
+                binding.itemBack.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.items_color_0))
+            } else {
+                binding.itemBack.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.items_color_1))
+            }
             var fio = ""
             binding.studentId.text = data.auth_id
             try {
@@ -63,8 +68,7 @@ class StudentAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<S
                 binding.fullName.text = fio
 
             } catch (e: Exception) {
-                lg("Error in student adapter -> "+e.message.toString())
-                lg("Error ->"+data)
+
             }
             binding.passport.text = data.passport
             binding.address.text = data.viloyat?.split(" ")?.first() + " " + data.viloyat?.split(" ")?.last()?.substring(0, 3) + ". " + data.tuman?.split(" ")?.first() + " " + data.tuman?.split(" ")?.last()?.substring(0, 3) + "."
@@ -79,8 +83,8 @@ class StudentAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<S
             val sdf = SimpleDateFormat("yyyy-M-dd hh:mm:ss")
             val currentDate = sdf.format(Date())
 
-            val hour = currentDate.split(" ").last().split(":").first().toInt()
-            val minute: Int = currentDate.split(" ").last().split(":").get(1).toInt()
+//            val hour = currentDate.split(" ").last().split(":").first().toInt()
+            val minute: Int = currentDate.split(" ").last().split(":")[1].toInt()
             val sekunt = currentDate.split(" ").last().split(":").last().toInt()
 
             if (data.last_location != null) {
@@ -88,7 +92,7 @@ class StudentAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<S
                 data.last_location.let {
                     val lastLocation: LocationHistoryData = Gson().fromJson(data.last_location, LocationHistoryData::class.java)
 
-                    val hourBase = lastLocation.data_time?.split(" ")?.last()?.split(":")?.first()?.toInt()
+//                    val hourBase = lastLocation.data_time?.split(" ")?.last()?.split(":")?.first()?.toInt()
                     val minuteBase = lastLocation.data_time?.split(" ")?.last()?.split(":")?.get(1)?.toInt()
                     val sekuntBase = lastLocation.data_time?.split(" ")?.last()?.split(":")?.last()?.toInt()
 
@@ -96,20 +100,20 @@ class StudentAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<S
                         sekuntBase?.let {
 
                             if (minute - minuteBase > 1) {
-                                binding.statusStudent.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.red))
-                                binding.statusStudent.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.red))
+                                binding.statusStudent.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.new_tab_color))
+                                binding.statusStudent.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.new_tab_color))
                             } else if (minute == minuteBase && sekunt - sekuntBase < 10) {
                                 binding.statusStudent.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.green))
                             } else if (minute - minuteBase == 1 && sekunt - (sekuntBase - 60) < 10) {
                                 binding.statusStudent.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.green))
                             } else {
-                                binding.statusStudent.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.red))
+                                binding.statusStudent.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.new_tab_color))
                             }
                         }
                     }
                 }
             } else {
-                binding.statusStudent.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.red))
+                binding.statusStudent.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.new_tab_color))
 
             }
 

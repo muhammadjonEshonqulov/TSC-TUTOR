@@ -14,9 +14,16 @@ class Prefs @Inject constructor(context: Context) {
 
     val language = "language"
     val token = "token"
+    val login = "login"
+    val image = "image"
+    val group = "group"
+    val password = "password"
+    val tutorLogin = "tutorLogin"
+    val tutorPassword = "tutorPassword"
     val hemisToken = "hemisToken"
     val fam = "fam"
     val name = "name"
+    val loginStop = "loginStop"
     val role = "role" // 1-Admin 2-Tyutor 3-Developer 4-Student
 
 
