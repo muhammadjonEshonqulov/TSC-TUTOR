@@ -87,10 +87,12 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/groups_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_group_24" />
+                                android:src="@drawable/ic_baseline_group_24"
+                                android:transitionName="groups_image" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -125,10 +127,12 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/students_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_format_list_numbered_24" />
+                                android:src="@drawable/ic_baseline_format_list_numbered_24"
+                                android:transitionName="students_image" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -163,11 +167,13 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/contract_payment_analysis_of_students_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:alpha="0.6"
                                 android:padding="@dimen/small_margin"
                                 android:src="@drawable/ic_baseline_attach_money_24"
+                                android:transitionName="contract_payment_analysis_of_students_image"
                                 app:tint="#FFB2B2" />
 
                             <TextView
@@ -211,11 +217,13 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/communication_with_students_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:alpha="0.6"
                                 android:padding="@dimen/small_margin"
                                 android:src="@drawable/ic_baseline_chat_24"
+                                android:transitionName="communication_with_students_image"
                                 app:tint="#FFB2B2" />
 
                             <TextView
@@ -252,10 +260,12 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/boys_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_boy_24" />
+                                android:src="@drawable/ic_baseline_boy_24"
+                                android:transitionName="boys_image" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -290,10 +300,12 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/girls_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_girl_24" />
+                                android:src="@drawable/ic_baseline_girl_24"
+                                android:transitionName="girls_image" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -335,10 +347,12 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/grands_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_grade_24" />
+                                android:src="@drawable/ic_baseline_grade_24"
+                                android:transitionName="grands_image" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -373,10 +387,12 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/contracts_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_content_paste_24" />
+                                android:src="@drawable/ic_baseline_content_paste_24"
+                                android:transitionName="contracts_image" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -411,10 +427,12 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/disabled_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_accessible_24" />
+                                android:src="@drawable/ic_baseline_accessible_24"
+                                android:transitionName="disabled_image" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -456,10 +474,12 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/low_income_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:padding="@dimen/small_margin"
-                                android:src="@drawable/ic_baseline_front_hand_24" />
+                                android:src="@drawable/ic_baseline_front_hand_24"
+                                android:transitionName="low_income_image" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -494,10 +514,12 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/orphans_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:padding="@dimen/small_margin"
                                 android:src="@drawable/orphans"
+                                android:transitionName="orphans_image"
                                 app:tint="@color/cl_color_primary" />
 
                             <TextView
@@ -534,12 +556,14 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/student_dormitory_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:alpha="0.6"
                                 android:padding="@dimen/small_margin"
                                 android:src="@drawable/accomodation"
-                                app:tint="#FFB2B2"/>
+                                android:transitionName="student_dormitory_image"
+                                app:tint="#FFB2B2" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -583,11 +607,13 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/rent_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:alpha="0.6"
                                 android:padding="@dimen/small_margin"
                                 android:src="@drawable/ic_baseline_other_houses_24"
+                                android:transitionName="rent_image"
                                 app:tint="#FFB2B2" />
 
                             <TextView
@@ -624,11 +650,13 @@
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/at_home_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/actionbar_size"
                                 android:alpha="0.6"
                                 android:padding="@dimen/small_margin"
                                 android:src="@drawable/ic_baseline_home_24"
+                                android:transitionName="at_home_image"
                                 app:tint="#FFB2B2" />
 
                             <TextView

@@ -3,11 +3,16 @@ package uz.jbnuu.tsc.ui.groups
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.core.os.bundleOf
+import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import uz.jbnuu.tsc.R
 import uz.jbnuu.tsc.adapters.GroupAdapter
@@ -35,7 +40,7 @@ class GroupsFragment : BaseFragment<GroupFragmentBinding>(GroupFragmentBinding::
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getGroups()
-
+        sharedElementEnterTransition = MaterialContainerTransform()
     }
 
     override fun onViewCreatedd(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +65,13 @@ class GroupsFragment : BaseFragment<GroupFragmentBinding>(GroupFragmentBinding::
     private fun setupRecycler() {
         binding.listGroup.apply {
             adapter = groupAdapter
+            postponeEnterTransition()
             layoutManager = GridLayoutManager(requireContext(), 2)
+            viewTreeObserver
+                .addOnPreDrawListener {
+                    startPostponedEnterTransition()
+                    true
+                }
         }
     }
 
@@ -143,8 +154,10 @@ class GroupsFragment : BaseFragment<GroupFragmentBinding>(GroupFragmentBinding::
 //        progressDialog?.dismiss()
     }
 
-    override fun onItemClick(data: GroupData) {
+    override fun onItemClick(data: GroupData, view: ImageView) {
+        val extras = FragmentNavigatorExtras(view to "tutor_to_students")
+
         val bundle = bundleOf("group_id" to data.id, "group_name" to data.name)
-        findNavController().navigateSafe(R.id.action_groupsFragment_to_studentsFragment, bundle)
+        findNavController().navigate(R.id.action_groupsFragment_to_studentsFragment, bundle,  null, extras)
     }
 }

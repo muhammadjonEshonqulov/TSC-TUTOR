@@ -1,7 +1,10 @@
 package uz.jbnuu.tsc.adapters
 
+import android.content.ClipData
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import uz.jbnuu.tsc.databinding.ItemGroupBinding
@@ -22,7 +25,7 @@ class GroupAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<Gro
     }
 
     interface OnItemClickListener {
-        fun onItemClick(data: GroupData)
+        fun onItemClick(data: GroupData, view: ImageView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -40,9 +43,10 @@ class GroupAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<Gro
 
         fun bind(data: GroupData) {
             binding.nameGroup.text = "" + data.name
+            binding.groupImage.transitionName = "ImageGroup$bindingAdapterPosition"
 
             binding.itemBack.setOnClickListener {
-                listener.onItemClick(data)
+                listener.onItemClick(data, binding.groupImage)
             }
         }
     }

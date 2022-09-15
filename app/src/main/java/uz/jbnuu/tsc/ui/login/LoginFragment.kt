@@ -160,6 +160,9 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                     closeLoader()
                     if (it.data?.success == true) {
                         it.data.data?.apply {
+                            semester?.code?.let {
+                                prefs.save(prefs.semester, it)
+                            }
                             first_name?.let {
                                 prefs.save(prefs.name, it)
                             }

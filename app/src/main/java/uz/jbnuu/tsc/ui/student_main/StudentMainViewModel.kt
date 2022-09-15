@@ -12,12 +12,14 @@ import kotlinx.coroutines.launch
 import uz.jbnuu.tsc.R
 import uz.jbnuu.tsc.app.App
 import uz.jbnuu.tsc.data.Repository
+import uz.jbnuu.tsc.model.SubjectResponse
 import uz.jbnuu.tsc.model.login.LogoutResponse
 import uz.jbnuu.tsc.model.login.student.LoginStudentBody
 import uz.jbnuu.tsc.model.login.student.LoginStudentResponse
 import uz.jbnuu.tsc.model.send_location.SendLocationArrayBody
 import uz.jbnuu.tsc.model.send_location.SendLocationBody
 import uz.jbnuu.tsc.model.send_location.SendLocationResponse
+import uz.jbnuu.tsc.model.subjects.SubjectsResponse
 import uz.jbnuu.tsc.utils.NetworkResult
 import uz.jbnuu.tsc.utils.handleResponse
 import uz.jbnuu.tsc.utils.hasInternetConnection
@@ -128,6 +130,40 @@ class StudentMainViewModel @Inject constructor(
             }
         } else {
             _logoutResponse.send(NetworkResult.Error(App.context.getString(R.string.connection_error)))
+        }
+    }
+
+    private val _subjectsResponse = Channel<NetworkResult<SubjectsResponse>>()
+    var subjectsResponse = _subjectsResponse.receiveAsFlow()
+
+    fun subjects() = viewModelScope.launch {
+        _subjectsResponse.send(NetworkResult.Loading())
+        if (hasInternetConnection(getApplication())) {
+            try {
+                val response = repository.remote.subjects()
+                _subjectsResponse.send(handleResponse(response))
+            } catch (e: Exception) {
+                _subjectsResponse.send(NetworkResult.Error("Xatolik : " + e.message))
+            }
+        } else {
+            _subjectsResponse.send(NetworkResult.Error(App.context.getString(R.string.connection_error)))
+        }
+    }
+
+    private val _subjectResponse = Channel<NetworkResult<SubjectResponse>>()
+    var subjectResponse = _subjectResponse.receiveAsFlow()
+
+    fun subject(subject: Int?, semester: String) = viewModelScope.launch {
+        _subjectResponse.send(NetworkResult.Loading())
+        if (hasInternetConnection(getApplication())) {
+            try {
+                val response = repository.remote.subject(subject, semester)
+                _subjectResponse.send(handleResponse(response))
+            } catch (e: Exception) {
+                _subjectResponse.send(NetworkResult.Error("Xatolik : " + e.message))
+            }
+        } else {
+            _subjectResponse.send(NetworkResult.Error(App.context.getString(R.string.connection_error)))
         }
     }
 

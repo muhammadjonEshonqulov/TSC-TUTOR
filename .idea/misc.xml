@@ -33,6 +33,7 @@
         <entry key="app/src/main/res/drawable/spinner_background.xml" value="0.242" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/admin_fragment.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/attendance_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/custom_spinner_item.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/dialog_logut.xml" value="0.3541666666666667" />
@@ -43,7 +44,7 @@
         <entry key="app/src/main/res/layout/group_fragment.xml" value="0.353125" />
         <entry key="app/src/main/res/layout/header_layout.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/item_attendance.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/item_group.xml" value="0.6401028277634961" />
+        <entry key="app/src/main/res/layout/item_group.xml" value="0.16" />
         <entry key="app/src/main/res/layout/item_lesson.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_location_history.xml" value="0.353125" />
         <entry key="app/src/main/res/layout/item_performance.xml" value="0.14" />

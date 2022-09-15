@@ -1,5 +1,6 @@
 package uz.jbnuu.tsc.data
 
+import okhttp3.ResponseBody
 import retrofit2.Response
 import uz.jbnuu.tsc.data.network.ApiService
 import uz.jbnuu.tsc.model.SubjectResponse
@@ -21,6 +22,7 @@ import uz.jbnuu.tsc.model.semester.SemestersResponse
 import uz.jbnuu.tsc.model.send_location.SendLocationArrayBody
 import uz.jbnuu.tsc.model.send_location.SendLocationBody
 import uz.jbnuu.tsc.model.send_location.SendLocationResponse
+import uz.jbnuu.tsc.model.student.PushNotification
 import uz.jbnuu.tsc.model.student.StudentBody
 import uz.jbnuu.tsc.model.student.StudentResponse
 import uz.jbnuu.tsc.model.subjects.SubjectsResponse
@@ -37,6 +39,10 @@ class RemoteDataSource @Inject constructor(@Named("provideApiService") val apiSe
         return apiService.loginTyuter(loginTyuterBody)
     }
 
+    suspend fun postNotification(full_url: String, notification: PushNotification): Response<ResponseBody> {
+        return apiService.postNotification(full_url, notification)
+    }
+
     suspend fun me(): Response<MeResponse> {
         return apiServiceHemis.me()
     }
@@ -49,8 +55,8 @@ class RemoteDataSource @Inject constructor(@Named("provideApiService") val apiSe
         return apiServiceHemis.subjects()
     }
 
-    suspend fun subject(): Response<SubjectResponse> {
-        return apiServiceHemis.subject()
+    suspend fun subject(subject: Int?, semester: String): Response<SubjectResponse> {
+        return apiServiceHemis.subject(subject,semester)
     }
 
     suspend fun semesters(): Response<SemestersResponse> {

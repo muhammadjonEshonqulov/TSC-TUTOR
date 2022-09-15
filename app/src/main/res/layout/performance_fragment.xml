@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ECF0F5"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:transitionName="performance_image">
 
     <LinearLayout
         android:id="@+id/action_bar_profile"
@@ -101,8 +102,8 @@
             android:orientation="vertical">
 
             <HorizontalScrollView
-                android:layout_width="match_parent"
                 android:id="@+id/list_performance_lay"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">
 

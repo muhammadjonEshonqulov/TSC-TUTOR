@@ -13,15 +13,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import uz.jbnuu.tsc.databinding.ActivityMainBinding
 import uz.jbnuu.tsc.model.login.student.LoginStudentBody
 import uz.jbnuu.tsc.model.send_location.SendLocationArrayBody
 import uz.jbnuu.tsc.model.send_location.SendLocationBody
+import uz.jbnuu.tsc.model.subjects.SubjectsData
 import uz.jbnuu.tsc.ui.student_main.StudentMainViewModel
 import uz.jbnuu.tsc.utils.*
 import java.text.SimpleDateFormat
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
 //        }
 
 //        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-
+        FirebaseMessaging.getInstance().subscribeToTopic("jbnuu_tsc_channel")
     }
 
     companion object {
@@ -130,7 +131,7 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             LOCATION_REQUEST_CODE -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     turnOnLocation()
                 } else {
                     Toast.makeText(this@MainActivity, "Permission denied", Toast.LENGTH_SHORT).show()
@@ -182,7 +183,7 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
                 }
                 is NetworkResult.Error -> {
                     if (it.code == 401) {
-                        login(sendLocationBody)
+                        login()
                     }
                 }
                 is NetworkResult.Loading -> {
@@ -204,7 +205,55 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
                 }
                 is NetworkResult.Error -> {
                     if (it.code == 401) {
-                        login(sendLocationArrayBody = sendLocationArrayBody)
+                        login()
+                    }
+                }
+                is NetworkResult.Loading -> {
+
+                }
+            }
+        }
+    }
+
+    private fun subjects() {
+        vm.subjects()
+        vm.subjectsResponse.collectLA(lifecycleScope) {
+            when (it) {
+                is NetworkResult.Success -> {
+                    it.data?.data?.let {
+                        val currentSemesterSubjects = ArrayList<SubjectsData>()
+                        currentSemesterSubjects.clear()
+                        it.forEachIndexed { index, subjectsData ->
+                            if (prefs.get(prefs.semester, "") == subjectsData._semester) {
+                                currentSemesterSubjects.add(subjectsData)
+                                subject(subjectsData.subject?.id, subjectsData._semester)
+                            }
+                        }
+
+                    }
+                }
+                is NetworkResult.Error -> {
+                    if (it.code == 401) {
+                        login()
+                    }
+                }
+                is NetworkResult.Loading -> {
+
+                }
+            }
+        }
+    }
+
+    private fun subject(subject: Int?, semester: String) {
+        vm.subject(subject, semester)
+        vm.subjectResponse.collectLA(lifecycleScope) {
+            when (it) {
+                is NetworkResult.Success -> {
+
+                }
+                is NetworkResult.Error -> {
+                    if (it.code == 401) {
+                        login()
                     }
                 }
                 is NetworkResult.Loading -> {
@@ -226,7 +275,7 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
                 }
                 is NetworkResult.Error -> {
                     if (it.code == 401) {
-                        login(sendLocationArrayBody = sendLocationArrayBody)
+                        login()
                     }
                 }
                 is NetworkResult.Loading -> {
@@ -247,7 +296,7 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
                 }
                 is NetworkResult.Error -> {
                     if (it.code == 401) {
-                        login(sendLocationBody)
+                        login()
                     }
                 }
                 is NetworkResult.Loading -> {
@@ -257,7 +306,7 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
         }
     }
 
-    private fun login(sendLocationBody: SendLocationBody? = null, sendLocationArrayBody: SendLocationArrayBody? = null) {
+    private fun login() {
         prefs.save(prefs.loginStop, 1)
         vm.loginStudent(LoginStudentBody(prefs.get(prefs.login, ""), prefs.get(prefs.password, ""), prefs.get(prefs.token, "")))
         vm.loginResponse.collectLA(lifecycleScope) {
@@ -266,26 +315,9 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
                     it.data?.token?.let {
                         prefs.save(prefs.loginStop, 0)
                         prefs.save(prefs.token, it)
-
                         timer?.start()
 
-//                        if (prefs.get(prefs.role, 0) == 4) {
-//                            sendLocationBody?.let {
-//                                sendLocation(it)
-//                            }
-//                            sendLocationArrayBody?.let {
-//                                sendLocationArray(sendLocationArrayBody)
-//                            }
-//                        } else if (prefs.get(prefs.role, 0) == 2) {
-//                            sendLocationBody?.let {
-//                                sendLocation1(it)
-//                            }
-//                            sendLocationArrayBody?.let {
-//                                sendLocationArray1(sendLocationArrayBody)
-//                            }
-//                        } else {
-//
-//                        }
+                        subjects()
                     }
                 }
                 is NetworkResult.Error -> {
@@ -299,7 +331,6 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
     }
 
     override fun send(value: String) {
-        lg("value-> " + value)
         if (value == "Start") {
             if (timer == null) {
                 timer = object : CountDownTimer(timeTest, 1000) {
@@ -313,7 +344,6 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
                             time = (timeTest - millisUntilFinished).toInt() / 1000
                             if (time == 2) {
                                 if (checkPermission()) {
-//                    if (checkTurnOnOrOffLocation()){
                                     fusedLocationProviderClient = FusedLocationProviderClient(this@MainActivity)
                                     fusedLocationProviderClient.lastLocation.addOnSuccessListener {
                                         val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
@@ -321,10 +351,8 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
                                         try {
                                             application?.let { appl ->
                                                 if (hasInternetConnection(appl)) {
-                                                    lg("Connect")
                                                     vm.getSendLocationBodyData()
                                                     vm.getSendLocationsResponse.collectLA(lifecycleScope) { sendLocations ->
-                                                        lg("sendLocations size -> " + sendLocations.size)
                                                         if (sendLocations.isNotEmpty()) {
                                                             if (prefs.get(prefs.role, 0) == 4) {
                                                                 sendLocationArray(SendLocationArrayBody(sendLocations))
@@ -341,11 +369,7 @@ class MainActivity : AppCompatActivity(), SendDataToActivity {
 
                                                     }
                                                 } else {
-                                                    lg("No Connect")
-
                                                     vm.insertCategoryData(SendLocationBody(currentDate, "" + it.latitude, "" + it.longitude))
-
-                                                    lg("Inserted -> lat -> " + it.latitude.toString() + " long ->" + it.longitude.toString())
                                                 }
                                             }
 

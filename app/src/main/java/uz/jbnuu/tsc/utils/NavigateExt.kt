@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 
 /**
  *  Safely navigate via the given Action
@@ -13,7 +15,12 @@ import androidx.navigation.NavGraph
  *
  * @author @BoyWonder
  */
-fun NavController.navigateSafe(@IdRes resActionId: Int) {
+fun NavController.navigateSafe(
+    @IdRes resActionId: Int,
+    args: Bundle? = null,
+    navOptions: NavOptions? = null,
+    extras: Navigator.Extras? = null
+) {
     val destinationId = currentDestination?.getAction(resActionId)?.destinationId
     currentDestination?.let { node ->
         val currentNode = when (node) {
@@ -22,7 +29,7 @@ fun NavController.navigateSafe(@IdRes resActionId: Int) {
         }
         if (destinationId != null) {
             currentNode?.findNode(destinationId)
-                ?.let { navigate(resActionId, null) }
+                ?.let { navigate(resActionId, args, navOptions, extras) }
         }
     }
 }

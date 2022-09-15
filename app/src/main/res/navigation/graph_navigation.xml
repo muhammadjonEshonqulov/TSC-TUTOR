@@ -13,17 +13,13 @@
         <action
             android:id="@+id/action_loginFragment_to_tutorMainFragment"
             app:destination="@id/tutorMainFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popUpTo="@id/graph_nav"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_studentMainFragment"
             app:destination="@id/studentMainFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popUpTo="@id/graph_nav"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/groupsFragment"
@@ -32,11 +28,7 @@
         tools:layout="@layout/group_fragment">
         <action
             android:id="@+id/action_groupsFragment_to_studentsFragment"
-            app:destination="@id/studentsFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/studentsFragment" />
 
         <action
             android:id="@+id/action_groupsFragment_to_loginFragment"
@@ -56,11 +48,7 @@
         tools:layout="@layout/student_fragment">
         <action
             android:id="@+id/action_studentsFragment_to_locationHistoryFragment"
-            app:destination="@id/locationHistoryFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/locationHistoryFragment" />
         <action
             android:id="@+id/action_studentsFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -92,27 +80,15 @@
 
         <action
             android:id="@+id/action_studentMainFragment_to_scheduleFragment"
-            app:destination="@id/scheduleFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/scheduleFragment" />
 
         <action
             android:id="@+id/action_studentMainFragment_to_performanceFragment"
-            app:destination="@id/performanceFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/performanceFragment" />
 
         <action
             android:id="@+id/action_studentMainFragment_to_attendanceFragment"
-            app:destination="@id/attendanceFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/attendanceFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationHistoryFragment"
@@ -148,19 +124,11 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_tutorMainFragment_to_groupsFragment"
-            app:destination="@id/groupsFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/groupsFragment" />
 
         <action
             android:id="@+id/action_tutorMainFragment_to_studentsFragment"
-            app:destination="@id/studentsFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/studentsFragment" />
 
     </fragment>
     <fragment
@@ -171,28 +139,21 @@
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_tutorMainFragment"
             app:destination="@id/tutorMainFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_adminFragment"
+            app:destination="@id/adminFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_studentMainFragment"
             app:destination="@id/studentMainFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -211,4 +172,9 @@
         android:name="uz.jbnuu.tsc.ui.performance.PerformanceFragment"
         android:label="PerformanceFragment"
         tools:layout="@layout/performance_fragment" />
+    <fragment
+        android:id="@+id/adminFragment"
+        android:name="uz.jbnuu.tsc.base.AdminFragment"
+        android:label="AdminFragment"
+        tools:layout="@layout/admin_fragment" />
 </navigation>

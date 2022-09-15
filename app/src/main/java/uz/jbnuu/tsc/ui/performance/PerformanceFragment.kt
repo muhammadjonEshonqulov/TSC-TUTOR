@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import uz.jbnuu.tsc.adapters.PerformanceAdapter
 import uz.jbnuu.tsc.adapters.SemesterAdapter
@@ -35,6 +36,7 @@ class PerformanceFragment : BaseFragment<PerformanceFragmentBinding>(Performance
         super.onCreate(savedInstanceState)
         performance()
         semesters()
+        sharedElementEnterTransition = MaterialContainerTransform()
     }
 
     override fun onViewCreatedd(view: View, savedInstanceState: Bundle?) {

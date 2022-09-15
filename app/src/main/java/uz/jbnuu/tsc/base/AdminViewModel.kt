@@ -1,4 +1,4 @@
-package uz.jbnuu.tsc.ui.splash
+package uz.jbnuu.tsc.base
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -8,38 +8,19 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
-import uz.jbnuu.tsc.R
-import uz.jbnuu.tsc.app.App
 import uz.jbnuu.tsc.data.Repository
-import uz.jbnuu.tsc.model.me.MeResponse
-import uz.jbnuu.tsc.model.student.PushNotification
 import uz.jbnuu.tsc.utils.NetworkResult
 import uz.jbnuu.tsc.utils.handleResponse
 import uz.jbnuu.tsc.utils.hasInternetConnection
+import uz.jbnuu.tsc.model.student.PushNotification
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashVIewModel @Inject constructor(
-    val repository: Repository,
+class AdminViewModel @Inject constructor(
+    private val repository: Repository,
     application: Application,
 ) : AndroidViewModel(application) {
 
-    private val _meResponse = Channel<NetworkResult<MeResponse>>()
-    var meResponse = _meResponse.receiveAsFlow()
-
-    fun me() = viewModelScope.launch {
-        _meResponse.send(NetworkResult.Loading())
-        if (hasInternetConnection(getApplication())) {
-            try {
-                val response = repository.remote.me()
-                _meResponse.send(handleResponse(response))
-            } catch (e: Exception) {
-                _meResponse.send(NetworkResult.Error("Xatolik : " + e.message))
-            }
-        } else {
-            _meResponse.send(NetworkResult.Error(App.context.getString(R.string.connection_error)))
-        }
-    }
 
     private val _notificationResponse = Channel<NetworkResult<ResponseBody>>()
     var notificationResponse = _notificationResponse.receiveAsFlow()
@@ -57,5 +38,4 @@ class SplashVIewModel @Inject constructor(
             _notificationResponse.send(NetworkResult.Error("Server bilan aloqa yo'q"))
         }
     }
-
 }

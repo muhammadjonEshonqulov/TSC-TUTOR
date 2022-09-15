@@ -9,6 +9,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,10 +75,12 @@ class TutorMainFragment : BaseFragment<TutorsMainPageBinding>(TutorsMainPageBind
     override fun onClick(p0: View?) {
         when (p0) {
             binding.groups -> {
-                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_groupsFragment)
+                val extras = FragmentNavigatorExtras(binding.groupsImage to "tutor_to_group")
+                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_groupsFragment, extras = extras)
             }
             binding.students -> {
-                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment)
+                val extras = FragmentNavigatorExtras(binding.studentsImage to "tutor_to_students")
+                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, extras = extras)
             }
             binding.contractPaymentAnalysisOfStudents -> {
                 snackBar(binding, "Hozirda ishlab chiqishda")
@@ -86,39 +89,46 @@ class TutorMainFragment : BaseFragment<TutorsMainPageBinding>(TutorsMainPageBind
                 snackBar(binding, "Hozirda ishlab chiqishda")
             }
             binding.boys -> {
+                val extras = FragmentNavigatorExtras(binding.boysImage to "tutor_to_students")
                 val bundle = bundleOf("key" to "gender", "value" to "Erkak")
-                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle)
+                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle, extras = extras)
 //                snackBar(binding, "Hozirda ishlab chiqishda")
             }
             binding.girls -> {
+                val extras = FragmentNavigatorExtras(binding.girlsImage to "tutor_to_students")
                 val bundle = bundleOf("key" to "gender", "value" to "Ayol")
-                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle)
+                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle, extras = extras)
 //                snackBar(binding, "Hozirda ishlab chiqishda")
             }
             binding.grands -> {
+                val extras = FragmentNavigatorExtras(binding.grandsImage to "tutor_to_students")
 //                snackBar(binding, "Hozirda ishlab chiqishda")
                 val bundle = bundleOf("key" to "type", "value" to "grant")
-                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle)
+                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle, extras = extras)
             }
             binding.contracts -> {
+                val extras = FragmentNavigatorExtras(binding.contractsImage to "tutor_to_students")
 //                snackBar(binding, "Hozirda ishlab chiqishda")
                 val bundle = bundleOf("key" to "type", "value" to "kontrakt")
-                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle)
+                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle, extras = extras)
             }
             binding.disabled -> {
+                val extras = FragmentNavigatorExtras(binding.disabledImage to "tutor_to_students")
 //                snackBar(binding, "Hozirda ishlab chiqishda")
                 val bundle = bundleOf("key" to "social", "value" to "nogiron")
-                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle)
+                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle, extras = extras)
             }
             binding.lowIncome -> {
+                val extras = FragmentNavigatorExtras(binding.lowIncomeImage to "tutor_to_students")
 //                snackBar(binding, "Hozirda ishlab chiqishda")
                 val bundle = bundleOf("key" to "social", "value" to "kam")
-                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle)
+                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle, extras = extras)
             }
             binding.orphans -> {
+                val extras = FragmentNavigatorExtras(binding.orphansImage to "tutor_to_students")
 //                snackBar(binding, "Hozirda ishlab chiqishda")
                 val bundle = bundleOf("key" to "social", "value" to "yetim")
-                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle)
+                findNavController().navigateSafe(R.id.action_tutorMainFragment_to_studentsFragment, bundle, extras = extras)
             }
             binding.studentDormitory -> {
                 snackBar(binding, "Hozirda ishlab chiqishda")

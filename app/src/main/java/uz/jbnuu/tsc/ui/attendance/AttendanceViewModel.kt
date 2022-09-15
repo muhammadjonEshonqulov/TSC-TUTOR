@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import uz.jbnuu.tsc.R
 import uz.jbnuu.tsc.app.App
 import uz.jbnuu.tsc.data.Repository
+import uz.jbnuu.tsc.model.SubjectResponse
 import uz.jbnuu.tsc.model.attendance.AttendanceResponse
 import uz.jbnuu.tsc.model.login.hemis.LoginHemisBody
 import uz.jbnuu.tsc.model.login.hemis.LoginHemisResponse
@@ -76,6 +77,23 @@ class AttendanceViewModel @Inject constructor(
             _subjectsResponse.send(NetworkResult.Error(App.context.getString(R.string.connection_error)))
         }
     }
+
+//    private val _subjectResponse = Channel<NetworkResult<SubjectResponse>>()
+//    var subjectResponse = _subjectResponse.receiveAsFlow()
+//
+//    fun subject() = viewModelScope.launch {
+//        _subjectResponse.send(NetworkResult.Loading())
+//        if (hasInternetConnection(getApplication())) {
+//            try {
+//                val response = repository.remote.subject()
+//                _subjectResponse.send(handleResponse(response))
+//            } catch (e: Exception) {
+//                _subjectResponse.send(NetworkResult.Error("Xatolik : " + e.message))
+//            }
+//        } else {
+//            _subjectResponse.send(NetworkResult.Error(App.context.getString(R.string.connection_error)))
+//        }
+//    }
 
     private val _loginHemisResponse = Channel<NetworkResult<LoginHemisResponse>>()
     var loginHemisResponse = _loginHemisResponse.receiveAsFlow()

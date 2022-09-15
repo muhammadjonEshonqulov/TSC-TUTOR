@@ -6,6 +6,7 @@ import android.widget.AdapterView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import uz.jbnuu.tsc.adapters.AttendanceAdapter
 import uz.jbnuu.tsc.adapters.SemesterAdapter
@@ -38,6 +39,7 @@ class AttendanceFragment : BaseFragment<AttendanceFragmentBinding>(AttendanceFra
         super.onCreate(savedInstanceState)
         semesters()
         subjects()
+        sharedElementEnterTransition = MaterialContainerTransform()
     }
 
     override fun onViewCreatedd(view: View, savedInstanceState: Bundle?) {

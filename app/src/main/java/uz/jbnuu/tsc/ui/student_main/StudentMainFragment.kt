@@ -3,12 +3,16 @@ package uz.jbnuu.tsc.ui.student_main
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.ActivityInfo
+import android.icu.util.Calendar
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdRequest
@@ -22,15 +26,14 @@ import uz.jbnuu.tsc.base.ProgressDialog
 import uz.jbnuu.tsc.databinding.HeaderLayoutBinding
 import uz.jbnuu.tsc.databinding.StudentMainFragmentBinding
 import uz.jbnuu.tsc.ui.SendDataToActivity
-import uz.jbnuu.tsc.utils.NetworkResult
-import uz.jbnuu.tsc.utils.Prefs
-import uz.jbnuu.tsc.utils.collectLA
-import uz.jbnuu.tsc.utils.navigateSafe
+import uz.jbnuu.tsc.utils.*
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class StudentMainFragment : BaseFragment<StudentMainFragmentBinding>(StudentMainFragmentBinding::inflate), View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+class StudentMainFragment :
+    BaseFragment<StudentMainFragmentBinding>(StudentMainFragmentBinding::inflate),
+    View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     var sendDataToActivity: SendDataToActivity? = null
 
@@ -64,13 +67,24 @@ class StudentMainFragment : BaseFragment<StudentMainFragmentBinding>(StudentMain
         binding.adView.loadAd(adRequest)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("SourceLockedOrientationActivity", "SetTextI18n")
     override fun onViewCreatedd(view: View, savedInstanceState: Bundle?) {
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        bindNavHeader = HeaderLayoutBinding.bind(LayoutInflater.from(requireContext()).inflate(R.layout.header_layout, null, false))
+//        MobileAds.initialize(requireContext()) {}
+//        val adView = AdView(requireContext())
+//
+//        adView.adSize = AdSize.BANNER
+//
+//        adView.adUnitId = "ca-app-pub-3940256099942544/6300978111"
+
+        bindNavHeader = HeaderLayoutBinding.bind(
+            LayoutInflater.from(requireContext()).inflate(R.layout.header_layout, null, false)
+        )
         binding.navView.addHeaderView(bindNavHeader.root)
-        bindNavHeader.userNameHeader.text = prefs.get(prefs.fam, " ") + " " + prefs.get(prefs.name, "")
+        bindNavHeader.userNameHeader.text =
+            prefs.get(prefs.fam, " ") + " " + prefs.get(prefs.name, "")
         bindNavHeader.organizationUserHeader.text = prefs.get(prefs.group, "") + " guruh"
 
         prefs.get(prefs.image, "").let {
@@ -93,8 +107,6 @@ class StudentMainFragment : BaseFragment<StudentMainFragmentBinding>(StudentMain
         binding.navView.setNavigationItemSelectedListener(this)
 
 
-
-
     }
 
     override fun onPause() {
@@ -110,10 +122,16 @@ class StudentMainFragment : BaseFragment<StudentMainFragmentBinding>(StudentMain
     override fun onClick(p0: View?) {
         when (p0) {
             binding.scheduleLesson -> {
-                findNavController().navigateSafe(R.id.action_studentMainFragment_to_scheduleFragment)
+                val extras = FragmentNavigatorExtras(binding.scheduleLessonImage to "schedule_lesson_image")
+
+                findNavController().navigateSafe(
+                    R.id.action_studentMainFragment_to_scheduleFragment, null, null, extras
+                )
             }
             binding.attendance -> {
-                findNavController().navigateSafe(R.id.action_studentMainFragment_to_attendanceFragment)
+                val extras = FragmentNavigatorExtras(binding.attendanceImage to "attendance_image")
+
+                findNavController().navigateSafe(R.id.action_studentMainFragment_to_attendanceFragment, extras = extras)
             }
             binding.informationAboutStudy -> {
                 snackBar(binding, "Hozirda ishlab chiqishda")
@@ -126,7 +144,8 @@ class StudentMainFragment : BaseFragment<StudentMainFragmentBinding>(StudentMain
             }
             binding.performance -> {
 //                snackBar(binding, "Hozirda ishlab chiqishda")
-                findNavController().navigateSafe(R.id.action_studentMainFragment_to_performanceFragment)
+                val extras = FragmentNavigatorExtras(binding.performanceImage to "performance_image")
+                findNavController().navigateSafe(R.id.action_studentMainFragment_to_performanceFragment, extras = extras)
             }
             binding.homeWorksOfLessons -> {
                 snackBar(binding, "Hozirda ishlab chiqishda")

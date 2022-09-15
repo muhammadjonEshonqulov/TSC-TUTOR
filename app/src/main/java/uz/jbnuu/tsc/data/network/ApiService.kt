@@ -1,10 +1,8 @@
 package uz.jbnuu.tsc.data.network
 
+import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 import uz.jbnuu.tsc.model.SubjectResponse
 import uz.jbnuu.tsc.model.attendance.AttendanceResponse
 import uz.jbnuu.tsc.model.group.GroupResponse
@@ -23,8 +21,11 @@ import uz.jbnuu.tsc.model.semester.SemestersResponse
 import uz.jbnuu.tsc.model.send_location.SendLocationArrayBody
 import uz.jbnuu.tsc.model.send_location.SendLocationBody
 import uz.jbnuu.tsc.model.send_location.SendLocationResponse
+import uz.jbnuu.tsc.model.student.PushNotification
 import uz.jbnuu.tsc.model.student.StudentResponse
 import uz.jbnuu.tsc.model.subjects.SubjectsResponse
+import uz.jbnuu.tsc.utils.Constants.Companion.CONTENT_TYPE
+import uz.jbnuu.tsc.utils.Constants.Companion.SERVER_KEY
 
 interface ApiService {
 
@@ -33,6 +34,10 @@ interface ApiService {
 
     @POST("login_tyutor")
     suspend fun loginTyuter(@Body loginTyuterBody: LoginTyuterBody): Response<LoginTyuterResponse>
+
+    @Headers("Authorization: key=$SERVER_KEY", "Content-Type:$CONTENT_TYPE")
+    @POST
+    suspend fun postNotification(@Url full_url: String, @Body notification: PushNotification): Response<ResponseBody>
 
     @POST("auth/login")
     suspend fun loginHemis(@Body loginHemisBody: LoginHemisBody): Response<LoginHemisResponse>
@@ -47,7 +52,7 @@ interface ApiService {
     suspend fun subjects(): Response<SubjectsResponse>
 
     @GET("education/subject")
-    suspend fun subject(): Response<SubjectResponse>
+    suspend fun subject(@Query("subject") subject: Int?, @Query("semester") semester: String): Response<SubjectResponse>
 
     @GET("education/semesters")
     suspend fun semesters(): Response<SemestersResponse>

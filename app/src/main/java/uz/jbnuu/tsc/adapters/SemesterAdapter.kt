@@ -1,8 +1,10 @@
 package uz.jbnuu.tsc.adapters
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +12,8 @@ import uz.jbnuu.tsc.R
 import uz.jbnuu.tsc.databinding.ItemSemesterBinding
 import uz.jbnuu.tsc.model.semester.SemestersData
 import uz.jbnuu.tsc.utils.MyDiffUtil
-import uz.jbnuu.tsc.utils.lg
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class SemesterAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<SemesterAdapter.MyViewHolder>() {
@@ -34,6 +37,7 @@ class SemesterAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<
         return MyViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(dataProduct[position])
     }
@@ -42,22 +46,29 @@ class SemesterAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<
 
     inner class MyViewHolder(private val binding: ItemSemesterBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        @RequiresApi(Build.VERSION_CODES.N)
         @SuppressLint("SetTextI18n")
         fun bind(data: SemestersData) {
-            lg("semester -> $data")
-            if (data.currentExtra == null) {
-                if (data.current == true) {
-                    lg("current -> 1 " + data.name?.split("-")?.first())
+//            lg("semester -> $data")
+//            val now :Date = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+//            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+//            val currentDateAndTime = sdf.format(Date()).getTime()
+//
+//            val timeStamp = Timestamp(System.currentTimeMillis())
+            val timeStamp = System.currentTimeMillis() / 1000L
 
-                    data.weeks?.forEach {
-                        lg("weeks " + it.current)
-                        if (it.current == true) {
-                            lg("current -> " + data.name?.split("-")?.first())
-                            binding.semesterName.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.green))
-                            listener.onItemClick(data, bindingAdapterPosition, 0)
-                            return@forEach
+            if (data.currentExtra == null) {
+                data.weeks?.forEach {
+                    it.start_date?.let { start_date ->
+                        it.end_date?.let { end_date ->
+                            if (timeStamp in start_date..end_date) {
+                                binding.semesterName.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.green))
+                                listener.onItemClick(data, bindingAdapterPosition, 0)
+                                return@forEach
+                            }
                         }
                     }
+
                 }
             }
             if (data.currentExtra == true) {
@@ -71,6 +82,17 @@ class SemesterAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<
                 listener.onItemClick(data, bindingAdapterPosition, 1)
             }
 
+        }
+    }
+
+
+    private fun getDateTime(s: Long): String? {
+        return try {
+            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            val netDate = Date(s * 1000)
+            sdf.format(netDate)
+        } catch (e: Exception) {
+            e.toString()
         }
     }
 }

@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import uz.jbnuu.tsc.R
 import uz.jbnuu.tsc.adapters.StudentAdapter
@@ -37,6 +38,7 @@ class StudentsFragment : BaseFragment<StudentFragmentBinding>(StudentFragmentBin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform()
         arguments?.getInt("group_id", -1)?.let {
             group_id = it
         }
@@ -50,9 +52,9 @@ class StudentsFragment : BaseFragment<StudentFragmentBinding>(StudentFragmentBin
 
     private fun getStudentEvery() {
         if (timer == null) {
-            timer = object : CountDownTimer(5100, 1000) {
+            timer = object : CountDownTimer(5100, 500) {
                 override fun onTick(millisUntilFinished: Long) {
-                    if ((millisUntilFinished / 1000).toInt() == 5) {
+                    if ((millisUntilFinished / 500).toInt() == 9) {
                         try {
                             if (group_id == -1) {
                                 binding.listStudents.layoutManager?.onSaveInstanceState()?.let {
@@ -102,7 +104,7 @@ class StudentsFragment : BaseFragment<StudentFragmentBinding>(StudentFragmentBin
     }
 
     override fun onViewCreatedd(view: View, savedInstanceState: Bundle?) {
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+//        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         val group_name = arguments?.getString("group_name")
         setupRecycler()
         getStudentEvery()

@@ -6,6 +6,7 @@ import android.widget.AdapterView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import uz.jbnuu.tsc.adapters.ScheduleAdapter
 import uz.jbnuu.tsc.adapters.SemesterAdapter
@@ -15,7 +16,10 @@ import uz.jbnuu.tsc.databinding.ScheduleFragmentBinding
 import uz.jbnuu.tsc.model.schedule.ScheduleData
 import uz.jbnuu.tsc.model.schedule.WeekDaysData
 import uz.jbnuu.tsc.model.semester.SemestersData
-import uz.jbnuu.tsc.utils.*
+import uz.jbnuu.tsc.utils.NetworkResult
+import uz.jbnuu.tsc.utils.Prefs
+import uz.jbnuu.tsc.utils.collectLA
+import uz.jbnuu.tsc.utils.collectLatestLA
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,6 +36,7 @@ class ScheduleFragment : BaseFragment<ScheduleFragmentBinding>(ScheduleFragmentB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         semesters()
+        sharedElementEnterTransition = MaterialContainerTransform()
     }
 
     override fun onViewCreatedd(view: View, savedInstanceState: Bundle?) {
@@ -157,7 +162,6 @@ class ScheduleFragment : BaseFragment<ScheduleFragmentBinding>(ScheduleFragmentB
             semesterAdapter.dataProduct.forEachIndexed { index, semestersData ->
                 semestersData.currentExtra = index == position
             }
-            lg("semesterAdapter->" + semesterAdapter.dataProduct)
             semesterAdapter.notifyDataSetChanged()
         }
 
@@ -169,8 +173,22 @@ class ScheduleFragment : BaseFragment<ScheduleFragmentBinding>(ScheduleFragmentB
             binding.notFoundLesson.visibility = View.GONE
         }
         data.weeks?.let {
+            var dateIndex = -1
+            it.forEachIndexed { index, weekData ->
+                weekData.end_date?.let { endDate ->
+                    weekData.start_date?.let { start_date ->
+                        if (System.currentTimeMillis() / 1000L in start_date..endDate) {
+                            dateIndex = index
+                            return@forEachIndexed
+                        }
+                    }
+                }
+            }
             val weeksAdapter = WeeksAdapter(requireContext(), it)
             binding.spinnerWeeks.adapter = weeksAdapter
+            if (dateIndex >= 0) {
+                binding.spinnerWeeks.setSelection(dateIndex)
+            }
             binding.spinnerWeeks.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     it.get(position).id?.let {
