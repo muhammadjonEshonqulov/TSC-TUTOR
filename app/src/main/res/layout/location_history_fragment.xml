@@ -31,11 +31,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="7dp"
             android:layout_weight="1"
             android:fontFamily="@font/montserrat_medium"
             android:padding="7dp"
-            android:text="Location history"
+            android:text="Joylashuvlar tarixi"
             android:textColor="@color/white"
             android:textSize="20sp" />
 

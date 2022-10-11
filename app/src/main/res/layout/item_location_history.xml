@@ -16,24 +16,22 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
             android:fontFamily="@font/montserrat_medium"
             android:padding="@dimen/default_margin"
             android:text="2022-02-02 10:00"
             android:textColor="@color/black"
-            android:textSize="@dimen/standard_text_size" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/lat_lang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/default_margin"
             android:fontFamily="@font/montserrat_medium"
             android:padding="@dimen/default_margin"
             android:text="2022-02-02 10:00"
             android:textColor="@color/black"
-            android:textSize="@dimen/standard_text_size" />
+            android:textSize="@dimen/small_text_size" />
 
 
     </FrameLayout>
