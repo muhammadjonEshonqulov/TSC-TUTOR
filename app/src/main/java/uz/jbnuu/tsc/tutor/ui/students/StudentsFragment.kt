@@ -61,15 +61,12 @@ class StudentsFragment : BaseFragment<StudentFragmentBinding>(StudentFragmentBin
                 lg("on tick mill ->$millisUntilFinished")
                 if ((millisUntilFinished / 500).toInt() == 9) {
                     try {
+                        binding.listStudents.layoutManager?.onSaveInstanceState()?.let {
+                            scrollState = it
+                        }
                         if (group_id == -1) {
-                            binding.listStudents.layoutManager?.onSaveInstanceState()?.let {
-                                scrollState = it
-                            }
                             getStudents(StudentBody(null, key, value))
                         } else {
-                            binding.listStudents.layoutManager?.onSaveInstanceState()?.let {
-                                scrollState = it
-                            }
                             getStudents(StudentBody(group_id, key, value))
                         }
                     } catch (e: Exception) {
